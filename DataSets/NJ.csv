@@ -1,2 +1,5 @@
-﻿ID,Name,Date,Temp High,Temp Low,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset
-5,NanJing,3-Jun,27,19,24.3,0,112,78,38,4:59,19:08
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+5,NanJing, 2018-06-03,27,19,8,24.3,0,112,78,38,4:59,19:08,14:09,9:51, 2018-06-04 09:00:00,WS
+5,NanJing, 2018-06-04,29,21,8,25.3,0,153,83,43,4:59,19:08,14:09,9:51, 2018-06-05 09:00:00,WS
+5,NanJing, 2018-06-05,27,19,8,25.5,0,98,92,54,4:59,19:09,14:10,9:50, 2018-06-06 09:05:00,WS
+5,NanJing, 2018-06-06,30,21,9,26.2,0,108,89,45,4:58,19:09,14:11,9:49, 2018-06-07 09:01:00,WS

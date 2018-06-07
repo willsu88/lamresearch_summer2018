@@ -1,2 +1,5 @@
-﻿ID,Name,Date,Temp High,Temp Low,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset
-2,Beijing,3-Jun,29,17,27.4,0,101,80,28,4:47,19:38
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+2,Beijing, 2018-06-03,29,17,12,27.4,0,101,80,28,4:47,19:38,14:51,9:09, 2018-06-04 09:00:00,WS
+2,Beijing, 2018-06-04,34,21,13,29,0,84,48,14,4:47,19:39,14:52,9:08, 2018-06-05 09:00:00,WS
+2,Beijing, 2018-06-05,38,22,16,28.4,0,131,40,11,4:46,19:40,14:54,9:06, 2018-06-06 09:09:00,WS
+2,Beijing, 2018-06-06,32,23,9,26.2,0.6,133,54,23,4:46,19:40,14:54,9:06, 2018-06-07 09:05:00,WS

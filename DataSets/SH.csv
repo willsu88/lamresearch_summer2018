@@ -1,3 +1,8 @@
-﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time
-1,Shanghai,3-Jun,28,21,7,24.6,0,59,85,41,4:50,18:55,14:05,9:55
-1,Shanghai,4-Jun,27,22,5,24.4,0.7,132,94,59,4:50,18:55,14:05,9:55
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+1,Shanghai, 2018-06-03,28,21,7,24.6,0,59,85,41,4:50,18:55,14:05,9:55, 2018-06-04 09:00:00,WS
+1,Shanghai, 2018-06-04,27,22,5,24.4,0.7,132,94,59,4:50,18:55,14:05,9:55, 2018-06-05 09:00:00,WS
+1,Shanghai, 2018-06-05,27,21,6,24.6,0.2,143,85,58,4:50,18:56,14:06,9:54, 2018-06-06 09:09:00,WS
+1,Shanghai, 2018-06-06,29,21,8,23.3,0,118,88,51,4:50,18:56,14:06,9:54, 2018-06-07 09:05:00,WS
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,

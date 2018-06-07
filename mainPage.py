@@ -18,19 +18,18 @@ for filename in glob.glob(path):
     statement = createHeaders.currentHead(read,shortname) 
     table_headers[shortname] = statement
     f.close()
-#print table_headers['HZ']
-createDB.init_tables('june5.db',table_headers)
+
+createDB.init_tables('cur2.db',table_headers)
+
 
 
 
 """
 Things to take care of:
-    1. date/time in excel
-        - look at var type: date_time, date
-        - sunset, sunrise, total daylight time may need extra handling
-    2. titles of file names
-        - "shanghai.csv"?
-        - what happens if theres duplicates "HZ" "HZ2"
-    3. what happens if the database or table does not exist; or that they already exist? does it overwrite?
-    4. check out how qlik can interact with sqlite
+    1. need to make sure tables arent re-updating data
+
+DataBase
+1. Similar names taken care of
+2. Dates taken care of
+3. same existing tables done
 """

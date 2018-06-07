@@ -1,0 +1,5 @@
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+6,HangZhou, 2018-06-03,25,18,7,24.6,0,77,94,58,4:58,18:58,14:00,10:00, 2018-06-04 09:00:00,WS
+6,HangZhou, 2018-06-04,29,19,10,20.2,1.4,123,95,47,4:58,18:58,14:00,10:00, 2018-06-05 09:00:00,WS
+6,HangZhou, 2018-06-05,23,19,4,23.7,,54,97,77,4:57,18:59,14:02,9:58, 2018-06-06 09:03:00,WS
+6,HangZhou, 2018-06-06,29,21,8,25.1,0,107,95,57,4:57,18:59,14:02,9:58, 2018-06-07 09:01:00,WS

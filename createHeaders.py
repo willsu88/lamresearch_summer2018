@@ -1,5 +1,5 @@
 import csv, ast, psycopg2
-
+import string
 
 Error =  (ValueError, AssertionError,SyntaxError) 
 
@@ -14,16 +14,34 @@ def dataType(val, current_type):
     if type(t) in [int, long, float]:
         if (type(t) in [int, long]) and current_type not in ['float', 'varchar']:
            # Use smallest possible int type
-           if (-32768 < t < 32767) and current_type not in ['int', 'bigint']:
+            if (-32768 < t < 32767) and current_type not in ['int', 'bigint']:
                return 'smallint'
-           elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
+            elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
                return 'int'
-           else:
+            else:
                return 'bigint'
         if type(t) is float and current_type not in ['varchar']:
            return 'decimal'
     else:
         return 'varchar'
+
+def shortnameAdjust(shortname):
+        """
+        Used to find similar key words of named files
+        """
+        #dictionary of similar words
+        stored = {'SH':['sh','shanghai','shang hai'],'BJ':['bj','beijing','bei jing'],'SZ':['sz','shenzhen','shen zhen'],
+        'CD':['cd','chengdu', 'cheng du','chendu','chen du'], 'NJ':['nj','nanjing','nan jing', 'nan jin', 'nanjin'], 'HZ':[
+        'hz','hangzhou', 'hang zhou'],'WH':['wh','wuhan','wu han']}
+
+        short = str(shortname).lower()
+        
+        for key, value in stored.items():
+            for word in value:
+                if word in short:
+                    return key
+            
+        return shortname
 
 def currentHead(filename, shortname):
     """
@@ -50,8 +68,10 @@ def currentHead(filename, shortname):
                     type_list[i] = var_type
             if len(row[i]) > longest[i]:
                 longest[i] = len(row[i])
+    
     #build statement
-    statement = 'create table if not exists '+ shortname + ' ('
+    short = shortnameAdjust(shortname)
+    statement = 'create table  '+ short + ' ('
     for i in range(len(headers)):
 
         #handling edge cases
@@ -75,3 +95,4 @@ def currentHead(filename, shortname):
 
 
 
+    

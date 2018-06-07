@@ -1,2 +1,5 @@
-﻿ID,Name,Date,Temp High,Temp Low,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset
-4,ChengDu,3-Jun,24,17,22.4,9.4,115,97,72,6:01,20:03
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+4,ChengDu, 2018-06-03,24,17,7,22.4,9.4,115,97,72,6:01,20:03,14:02,9:58, 2018-06-04 09:00:00,WS
+4,ChengDu, 2018-06-04,30,16,14,24.4,0,80,97,36,6:01,20:04,14:03,9:57, 2018-06-05 09:00:00,WS
+4,ChengDu, 2018-06-05,33,18,15,25,0,90,92,29,6:01,20:04,14:03,9:57, 2018-06-06 09:07:00,WS
+4,ChengDu, 2018-06-06,34,20,14,26.4,0,125,87,35,6:01,20:05,14:04,9:56, 2018-06-07 09:02:00,WS

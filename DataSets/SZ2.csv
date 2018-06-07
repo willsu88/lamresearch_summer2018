@@ -1,0 +1,5 @@
+﻿ID,Name,Date,Temp High,Temp Low,Temp Diff,Temp Avg.,Precip. (mm),AQI,Humidity High,Humidity Low,Sunrise,Sunset,Daylight Time,Night Time,Date Recorded,Recorded By
+3,ShenZhen, 2018-06-03,32,27,5,30.4,0,44,83,57,5:39,19:06,13:27,10:33, 2018-06-04 09:00:00,WS
+3,ShenZhen, 2018-06-04,31,26,5,28.6,8.8,39,98,61,5:39,19:06,13:27,10:33, 2018-06-05 09:00:00,WS
+3,ShenZhen, 2018-06-05,30,26,4,26,10.7,25,98,77,5:39,19:07,13:28,10:32, 2018-06-06 09:08:00,WS
+3,ShenZhen, 2018-06-06,27,24,3,25.2,136.1,22,99,95,5:39,19:07,13:28,10:32, 2018-06-07 09:03:00,WS

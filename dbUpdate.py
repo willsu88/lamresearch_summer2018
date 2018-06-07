@@ -1,5 +1,5 @@
 import sqlite3, csv,ast,glob, copy
-
+import createHeaders
 Error =  (ValueError, AssertionError) 
 def dataType(val, current_type):
     """
@@ -67,7 +67,7 @@ def create_connection(db_file):
     return None
 
 def update_table(conn, create_table_sql):
-    """ create a table from the create_table_sql statement
+    """ update a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
     :return:
@@ -75,7 +75,6 @@ def update_table(conn, create_table_sql):
     try:
         c = conn.cursor()
         c.executescript(create_table_sql)
-        #c.execute(create_table_sql)
     except Error as e:
         print(e)
 
@@ -88,11 +87,23 @@ def create_statement(tbname, listValue, type_list):
     for i in range(1, len(listValue)):
         statement = "insert into " + tbname + " values ("
         for item in range(len(listValue[i])):
+            current = listValue[i][item]
             if type_list[item] != 'varchar':
-                statement = statement + listValue[i][item] + ", "  
+                statement = statement + current + ", "  
             else:
-                statement = statement + "'" + listValue[i][item] + "', "
-
+                current = current.strip()
+                if ":" in current and "-" in current:
+                    statement = statement + "datetime('" + current + "'), "
+                elif "-" in current:
+                    statement = statement + "date('" + current + "'), "
+                elif ":" in current:
+                    if len(str(current)) == 4:
+                        statement = statement + "time('0" + current + "'), "
+                    else: 
+                        statement = statement + "time('" + current + "'), "
+                else:
+                    statement = statement + "'" + current + "', "
+        
         statement = statement[:len(statement)-2]
         statement += ");"
         all_statements.append(statement)
@@ -110,17 +121,83 @@ def insert_statements(dbname,tbname,listValue,type_list):
     else:
         print("Error! cannot create the database connection.")
     pass
+def create_temp(dbname, listValue,type_list):
+    c.executescript(create_table_sql)
+    insert_statements(dbname, "temp",listValue,type_list)
+    pass
 
+def view_tables(conn, dbname, tbname, listValue, type_list, filename):
+    """
+    Used to compare the two tables schema
+    """
+
+    c = conn.cursor()
+    Join = raw_input("Type 'old' to see existing table values, type 'new' to see new table schema, type 'q' to quit view or not view ").lower()
+    if Join == "old":
+        print "select * from " + tbname + ";"
+        old = c.execute("select * from " + tbname + ";").fetchall()
+        for row in old:
+            print row 
+        view_tables(conn, dbname, tbname, listValue, type_list, filename)
+
+
+    elif Join == "new":
+        f = open(filename, 'r')
+        read = csv.reader(f)
+        statement = createHeaders.currentHead(read,tbname)
+        statement = statement.replace(tbname,"temp")
+        c.executescript(statement)
+        insert_statements(dbname, "temp",listValue,type_list)
+        new = c.execute("select * from  temp ;").fetchall()
+        for row in new:
+            print row 
+        c.execute("drop table temp")
+        view_tables(conn, dbname, tbname, listValue, type_list, filename)
+    elif Join == "q":
+        pass
+    else: 
+        print "Please choose old, new, or q."
+        view_tables(conn, dbname, tbname, listValue, type_list, filename)
+
+
+def overwrite_question (conn, dbname, tbname,listValue,type_list,filename):
+    yes_list = ['yes','y','ok']
+    print "Updating the data will erase and re-upload all data in this table"
+
+    #view the tables
+    view_tables(conn, dbname, tbname,listValue,type_list,filename)
+
+    Join = raw_input("Do you wish to overwrite the existing table? (Y,N) ").lower()
+
+    if Join in yes_list:
+        #perform overwtie
+        return True
+    else:
+       return False
+def examine_question ():
+    yes_list = ['e']
+    print "Updating the data will erase and re-upload all data in tables"
+
+    Join = raw_input("Press any key to update all tables directly. Press 'e' to examine each table one by one. ").lower()
+
+    if Join in yes_list:
+        #perform overwtie
+        return False
+    else:
+       return True
 def main(dbname):
-
+    database = 'C:\\sqlite\\' + dbname
     #runs through every csv file in a folder 
     path = "C:\\Users\\SuWi\\Documents\\Project\\Datasets\\*.csv"
+    runthrough = examine_question()
     for filename in glob.glob(path):
-        ind1 = filename.index('Datasets')
-        ind2 = filename.index('.csv')
+        conn = create_connection(database)
 
         #tbname gets the initial of each city; used to identify table names
+        ind1 = filename.index('Datasets')
+        ind2 = filename.index('.csv')
         tbname = filename[ind1+len('Datasets')+1:ind2]
+        tbname = createHeaders.shortnameAdjust(tbname)
 
         #open file
         f = open(filename, 'r')
@@ -131,10 +208,25 @@ def main(dbname):
         f2 = open(filename, 'r')
         read2 = csv.reader(f2)
         listValue = list(read2)
+
+        if runthrough:
+            flag = True
+        else:
+            print "Table " + tbname
+            flag = overwrite_question(conn, dbname, tbname,listValue,type_list, filename)
         
-        insert_statements(dbname, tbname,listValue,type_list)
+        if flag: 
+            #erase all old datan
+            print "Erasing data from " + tbname + " ..."
+            c = conn.cursor()
+            c.executescript("delete from " + tbname + " ;")
+            #insert new data
+            print "Updating data..."
+            insert_statements(dbname, tbname,listValue,type_list)
+            print "Table " + tbname + " updated."
         f.close()
         f2.close()
+        
     pass
 
-main('june5.db')
+main('cur2.db')
