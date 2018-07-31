@@ -1,5 +1,6 @@
 import sqlite3, csv,ast,glob, copy
 import createHeaders
+import getpass
 Error =  (ValueError, AssertionError) 
 def dataType(val, current_type):
     """
@@ -78,7 +79,7 @@ def update_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-def create_statement(tbname, listValue, type_list):
+def create_statement(tbname, listValue, type_list, user):
     """
     Creates a list of actual string command to insert values
     """
@@ -104,32 +105,77 @@ def create_statement(tbname, listValue, type_list):
                 else:
                     statement = statement + "'" + current + "', "
         
-        statement = statement[:len(statement)-2]
-        statement += ");"
+        statement = statement + "datetime('now', 'localtime'), \' " + user + "\');"
         all_statements.append(statement)
     
-    return all_statements
+    return all_statements 
 
-def insert_statements(dbname,tbname,listValue,type_list):
+def insert_statements(dbname,tbname,listValue,type_list, user):
 
     database = 'C:\\sqlite\\' + dbname
     conn = create_connection(database)
-    insertedList = create_statement(tbname, listValue, type_list)
+    
+    insertedList = create_statement(tbname, listValue, type_list, user)
     if conn is not None:
         for statement in insertedList:
             update_table(conn,statement)
     else:
         print("Error! cannot create the database connection.")
     pass
+
+
+def main(dbname):
+    database = 'C:\\sqlite\\' + dbname
+    #runs through every csv file in a folder 
+    path = "C:\\Users\\SuWi\\Documents\\Project\\Datasets\\*.csv"
+    print "About to update the current database: " + dbname + " at C:\\sqlite\\" +  dbname
+    #user = raw_input("Please type the user's initial. ").upper()
+    user = getpass.getuser()
+    for filename in glob.glob(path):
+        conn = create_connection(database)
+
+        #tbname gets the initial of each city; used to identify table names
+        ind1 = filename.index('Datasets')
+        ind2 = filename.index('.csv')
+        tbname = filename[ind1+len('Datasets')+1:ind2]
+        tbname = createHeaders.shortnameAdjust(tbname)
+
+        if tbname!=None:
+            #open file
+            f = open(filename, 'r')
+            read = csv.reader(f)
+            type_list, longest = dataTypeMain(read,tbname)
+
+            #open new file because old one will get written over
+            f2 = open(filename, 'r')
+            read2 = csv.reader(f2)
+            listValue = list(read2)
+
+
+            #insert new data
+            print "Updating data..."
+            insert_statements(dbname, tbname,listValue,type_list, user)
+            print "Table " + tbname + " updated."
+            f.close()
+            f2.close()
+        
+    pass
+
+#main('final_data.db')
+
+
+
+"""
+#This part is used to delete/overwrite files. Alternate method to update
 def create_temp(dbname, listValue,type_list):
     c.executescript(create_table_sql)
     insert_statements(dbname, "temp",listValue,type_list)
     pass
 
 def view_tables(conn, dbname, tbname, listValue, type_list, filename):
-    """
-    Used to compare the two tables schema
-    """
+    
+    #Used to compare the two tables schema
+    
 
     c = conn.cursor()
     Join = raw_input("Type 'old' to see existing table values, type 'new' to see new table schema, type 'q' to quit view or not view ").lower()
@@ -174,6 +220,7 @@ def overwrite_question (conn, dbname, tbname,listValue,type_list,filename):
         return True
     else:
        return False
+
 def examine_question ():
     yes_list = ['e']
     print "Updating the data will erase and re-upload all data in tables"
@@ -185,11 +232,24 @@ def examine_question ():
         return False
     else:
        return True
+def insert_statements(dbname,tbname,listValue,type_list):
+
+    database = 'C:\\sqlite\\' + dbname
+    conn = create_connection(database)
+    insertedList = create_statement(tbname, listValue, type_list)
+    if conn is not None:
+        for statement in insertedList:
+            update_table(conn,statement)
+    else:
+        print("Error! cannot create the database connection.")
+    pass
+
+
 def main(dbname):
     database = 'C:\\sqlite\\' + dbname
     #runs through every csv file in a folder 
     path = "C:\\Users\\SuWi\\Documents\\Project\\Datasets\\*.csv"
-    runthrough = examine_question()
+    runthrough = examine_question() 
     for filename in glob.glob(path):
         conn = create_connection(database)
 
@@ -228,5 +288,4 @@ def main(dbname):
         f2.close()
         
     pass
-
-main('cur2.db')
+"""

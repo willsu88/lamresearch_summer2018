@@ -41,7 +41,7 @@ def shortnameAdjust(shortname):
                 if word in short:
                     return key
             
-        return shortname
+        return None
 
 def currentHead(filename, shortname):
     """
@@ -71,27 +71,30 @@ def currentHead(filename, shortname):
     
     #build statement
     short = shortnameAdjust(shortname)
-    statement = 'create table  '+ short + ' ('
-    for i in range(len(headers)):
+    if short!= None:
+        statement = 'create table  '+ short + ' ('
+        for i in range(len(headers)):
 
-        #handling edge cases
-        headers[i] = headers[i].replace('(', " ")
-        headers[i] = headers[i].replace(')', " ")
-        headers[i] = headers[i].replace('.', " ")
-        headers[i] = headers[i].lstrip().rstrip()
-        headers[i] = headers[i].replace(' ', "_")
-        headers[i] = headers[i].replace('__', "_")
-        if '\xef\xbb\xbf' in headers[i]:
-            headers[i] = headers[i][3:]
+            #handling edge cases
+            headers[i] = headers[i].replace('(', " ")
+            headers[i] = headers[i].replace(')', " ")
+            headers[i] = headers[i].replace('.', " ")
+            headers[i] = headers[i].lstrip().rstrip()
+            headers[i] = headers[i].replace(' ', "_")
+            headers[i] = headers[i].replace('__', "_")
+            if '\xef\xbb\xbf' in headers[i]:
+                headers[i] = headers[i][3:]
 
-        #output the sql command line string    
-        if type_list[i] == 'varchar':
-            statement = (statement + '{} varchar({}),').format(headers[i].lower(), str(longest[i]))
-        else:
-            statement = (statement + '{} {}' + ',').format(headers[i].lower(), type_list[i])
-
-    statement = statement[:-1] + ');'
-    return statement
+            #output the sql command line string    
+            if type_list[i] == 'varchar':
+                statement = (statement + '{} varchar({}),').format(headers[i].lower(), str(longest[i]))
+            else:
+                statement = (statement + '{} {}' + ',').format(headers[i].lower(), type_list[i])
+        statement = statement + "time_recorded varchar(5), user varchar(5));"
+        return statement
+    else: 
+        print "The csv file " + shortname + ".csv does not correspond to any city name. The file will not be added in the db."
+        return None
 
 
 

@@ -16,20 +16,29 @@ for filename in glob.glob(path):
     read = csv.reader(f)
     #create the headers for each file
     statement = createHeaders.currentHead(read,shortname) 
-    table_headers[shortname] = statement
+    if statement!=None:
+        table_headers[shortname] = statement
     f.close()
 
-createDB.init_tables('cur2.db',table_headers)
+createDB.init_tables('final_data.db',table_headers)
 
 
 
 
 """
-Things to take care of:
-    1. need to make sure tables arent re-updating data
+Notes:
+    1. Pros and Cons of Uploading All Data/New Data:
+        - history snapshot
+    2. Need to change the 
+
+#Used to query dates
+select * from BJ where time_recorded > datetime('2018-06-11 14:04:20');
 
 DataBase
 1. Similar names taken care of
 2. Dates taken care of
 3. same existing tables done
+4. updating asks for erasing, allows view ---> check 5
+5. now data uploads all data again. providing historical snapshot
+6. csv file names that do not fit the 7 cities will not be added; shows the printed text on the terminal
 """
